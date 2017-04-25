@@ -1,9 +1,8 @@
 <div class="booyah-box col-10 offset-1">
 	<h1>Create Your Gram</h1>
+
 	<%= simple_form_for @gram do |f| %>
-		<%= f.input :Message %>
-		<%= f.input :Picture %>
-		<br />
+		<%= f.input :message %>
 		<%= f.submit 'Post!', class: 'btn btn-primary' %>
 	<% end %>
 </div>
