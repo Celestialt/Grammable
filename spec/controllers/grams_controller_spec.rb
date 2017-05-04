@@ -26,7 +26,7 @@ RSpec.describe GramsController, type: :controller do
 		end
 
 		it "should return a 404 message if we cannot find a gram with the id that is specified" do
-			user = FactoryGirl.create(:user)
+			user = FactoryGirl.create(:user)#don't need to create a gram; testing if we cannot find a gram
 			sign_in user
 			delete :destroy, params: { id: 'SPACEDUCK' }
 			expect(response).to have_http_status(:not_found)
@@ -154,13 +154,20 @@ RSpec.describe GramsController, type: :controller do
 			user = FactoryGirl.create(:user)
 			sign_in user
 
-			post :create, params: { gram: { message: 'Hello!' } }
+			post :create, params: {
+			 gram: {
+			  message: 'Hello!',
+		 		picture: fixture_file_upload("/picture.png", 'image/png')
+			 } 
+			}
+
 			expect(response).to redirect_to root_path
 
 			gram = Gram.last
 			expect(gram.message).to eq("Hello!")
 			expect(gram.user).to eq(user)
 		end
+
 		it "should properly deal with validation errors" do
 			user = FactoryGirl.create(:user)
 			sign_in user
