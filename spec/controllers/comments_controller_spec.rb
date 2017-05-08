@@ -30,5 +30,17 @@ RSpec.describe CommentsController, type: :controller do
 			expect(response).to have_http_status(:not_found)
 
 		end
+
+		it "should render the comments form with an http status of unprocessable_entity if blank" do
+			gram = FactoryGirl.create(:gram)
+
+			user = FactoryGirl.create(:user)
+			sign_in user
+
+			post :create, params: { gram_id: gram.id, comment: { message: '' } }
+			expect(response).to have_http_status(:unprocessable_entity)
+			gram.reload
+
+		end
 	end
 end
